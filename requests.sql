@@ -109,7 +109,7 @@ create table client_x_promotion
 
 -- task 4
 
-set datastyle = 'DMY';
+set datestyle = 'DMY';
 
 insert into rental_service.address(address_id, address_name)
 VALUES (1, '3-я улица Строителей, дом 25'),
@@ -125,7 +125,7 @@ VALUES (1, 'Коньки "Жизнь на острие"', 500),
        (4, 'Горные лыжи "С горки с ветерком"', 1000),
        (5, 'Сноуборд "Полет нормальный"', 1000),
        (6, 'Скандинавские палочки для ходьби "Попу не отбей!"', 200),
-       (7, 'Санки и финские сани "Любишь кататься -- люби и саночки возить!"', 400);
+       (7, 'Санки и финские сани "Люби и саночки возить!"', 400);
 
 insert into rental_service.client (client_id, address_id, name, surname, birthday, phone)
     values ('1', '1', 'Маша', 'Сергеева', '12.12.2012', '89213659022');
@@ -149,6 +149,15 @@ insert into rental_service.client (client_id, address_id, name, surname, birthda
     values ('10', '5', 'Федя', 'Шишкин', '11.11.11', '89239018821');
 
 
+insert into rental_service.promotion_type (promotion_type_id, promotion_type_name)
+    values ('1', '3 по цене 2');
+insert into rental_service.promotion_type (promotion_type_id, promotion_type_name)
+    values ('2', 'Скидка по возрасту');
+insert into rental_service.promotion_type (promotion_type_id, promotion_type_name)
+    values ('3', 'Скидка по времени');
+insert into rental_service.promotion_type (promotion_type_id, promotion_type_name)
+    values ('4', 'Скидка k%');
+
 insert into rental_service.promotion (promotion_id, promotion_type_id, begin_t, end_t, promotion_name)
     values ('1', '1', '10.12.2022', '01.01.2023', 'Не плати за третьи коньки');
 insert into rental_service.promotion (promotion_id, promotion_type_id, begin_t, end_t, promotion_name)
@@ -160,14 +169,5 @@ insert into rental_service.promotion (promotion_id, promotion_type_id, begin_t, 
 insert into rental_service.promotion (promotion_id, promotion_type_id, begin_t, end_t, promotion_name)
     values ('5', '4', '01.01.2023', '31.01.2023', 'Скидка 35% на аренду любых лыж');
 insert into rental_service.promotion (promotion_id, promotion_type_id, begin_t, end_t, promotion_name)
-    values ('6', '3', '01.02.2023', '31.02.2023', 'Кто рано встает, тому сноуборд со скидкой 10% - успей оформить аренду до 10:00 и будет тебе счастье');
+    values ('6', '3', '01.02.2023', '27.02.2023', 'Кто рано встает, тому сноуборд со скидкой 10% - успей оформить аренду до 10:00 и будет тебе счастье');
 
-
-insert into rental_service.promotion_type (promotion_type_id, promotion_type_name)
-    values ('1', '3 по цене 2');
-insert into rental_service.promotion_type (promotion_type_id, promotion_type_name)
-    values ('2', 'Скидка по возрасту');
-insert into rental_service.promotion_type (promotion_type_id, promotion_type_name)
-    values ('3', 'Скидка по времени');
-insert into rental_service.promotion_type (promotion_type_id, promotion_type_name)
-    values ('4', 'Скидка k%');
