@@ -123,16 +123,19 @@ create table address_x_coach
     FOREIGN KEY (coach_id) REFERENCES coach (coach_id) ON DELETE CASCADE,
     FOREIGN KEY (address_id) REFERENCES address (address_id) ON DELETE CASCADE
 );
--- task 4
 
+
+-- task 4
 set datestyle = 'DMY';
 
-insert into rental_service.address(address_id, address_name)
-VALUES (1, '3-я улица Строителей, дом 25'),
-       (2, 'аллея Смурфиков, дом 3'),
-       (3, 'улица Броненосоца дом 221а'),
-       (4, 'Тисовая улица дом 4'),
-       (5, 'переулок Столярный дом 5');
+
+insert into rental_service.address(address_id, street, house, phone)
+VALUES (1, '3-я улица Строителей', '25', '89617298345'),
+       (2, 'аллея Смурфиков', '3',  '89617293445'),
+       (3, 'улица Броненосоца', '221a', '89433430555'),
+       (4, 'Тисовая улица', '4', '88005553535'),
+       (5, 'переулок Столярный', '5', '87776663322');
+
 
 insert into rental_service.service(service_id, naming, price)
 VALUES (1, 'Коньки "Жизнь на острие"', 500),
@@ -142,6 +145,7 @@ VALUES (1, 'Коньки "Жизнь на острие"', 500),
        (5, 'Сноуборд "Полет нормальный"', 1000),
        (6, 'Скандинавские палочки для ходьби "Попу не отбей!"', 200),
        (7, 'Санки и финские сани "Люби и саночки возить!"', 400);
+
 
 insert into rental_service.client (client_id, address_id, name, surname, birthday, phone)
 values ('1', '1', 'Маша', 'Сергеева', '12.12.2012', '89213659022');
@@ -181,18 +185,18 @@ insert into rental_service.coach(coach_id, coach_name, experience, phone)
 values ('7', 'Прасковья Шоколадкина', '3', '+7925617891');
 
 
-insert into rental_service.promotion (promotion_id, promotion_type_id, begin_t, end_t, promotion_name)
-values ('1', '1', '10.12.2022', '01.01.2023', 'Не плати за третьи коньки');
-insert into rental_service.promotion (promotion_id, promotion_type_id, begin_t, end_t, promotion_name)
-values ('2', '1', '15.01.2022', '15.02.2022', 'Взяли в аренду лыжи и коньки? Аренда ватрушки в подарок');
-insert into rental_service.promotion (promotion_id, promotion_type_id, begin_t, end_t, promotion_name)
-values ('3', '2', '01.12.2022', '28.02.2023',
-        'Посетителям старше 60 лет скидка на прокат палок для скандинавской ходьбы');
-insert into rental_service.promotion (promotion_id, promotion_type_id, begin_t, end_t, promotion_name)
-values ('4', '2', '01.12.2022', '28.02.2023', 'Детям прокат санок и ватрушек делешевле на 20%');
-insert into rental_service.promotion (promotion_id, promotion_type_id, begin_t, end_t, promotion_name)
-values ('5', '4', '01.01.2023', '31.01.2023', 'Скидка 35% на аренду любых лыж');
-insert into rental_service.promotion (promotion_id, promotion_type_id, begin_t, end_t, promotion_name)
-values ('6', '3', '01.02.2023', '27.02.2023',
-        'Кто рано встает, тому сноуборд со скидкой 10% - успей оформить аренду до 10:00 и будет тебе счастье');
+insert into rental_service.promotion (promotion_id, promotion_type_id, address_id, begin_t, end_t, promotion_name, promotion_type_name)
+values (1, 1, 3,'10.12.2022', '01.01.2023', 'Не плати за третьи коньки', '3 по цене 2');
+insert into rental_service.promotion (promotion_id, promotion_type_id, address_id, begin_t, end_t, promotion_name, promotion_type_name)
+values (2, 1, 1, '15.01.2022', '15.02.2022', 'Взяли в аренду лыжи и коньки? Аренда ватрушки в подарок', '3 по цене 2');
+insert into rental_service.promotion (promotion_id, promotion_type_id, address_id, begin_t, end_t, promotion_name, promotion_type_name)
+values (3, 2, 2, '01.12.2022', '28.02.2023', 'Посетителям старше 60 лет скидка на прокат палок для скандинавской ходьбы', 'Скидка по возрасту');
+insert into rental_service.promotion (promotion_id, promotion_type_id, address_id, begin_t, end_t, promotion_name, promotion_type_name)
+values (4, 2, 1, '01.12.2022', '28.02.2023', 'Детям прокат санок и ватрушек делешевле на 20%', 'Скидка по возрасту');
+insert into rental_service.promotion (promotion_id, promotion_type_id, address_id, begin_t, end_t, promotion_name, promotion_type_name)
+values (5, 4, 5, '01.01.2023', '31.01.2023', 'Скидка 35% на аренду любых лыж', 'Скидка k%');
+insert into rental_service.promotion (promotion_id, promotion_type_id, address_id, begin_t, end_t, promotion_name, promotion_type_name)
+values (6, 3, 4, '01.02.2023', '27.02.2023', 'Кто рано встает, тому сноуборд со скидкой 10% - успей оформить аренду до 10:00 и будет тебе счастье', 'Скидка по времени');
+
+
 
