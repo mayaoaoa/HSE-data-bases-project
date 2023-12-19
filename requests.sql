@@ -305,7 +305,7 @@ values (7, 1, 3, '01.01.2023', '01.02.2023', 'Не плати за третий 
 insert into rental_service.client(client_id, address_id, name, surname, birthday, phone)
 values (11, 2, 'Вася', 'Пупкин', '11.11.1991', '89555559022');
 
---удалить тренера 1, потом обновить таблицу и добавить нового тренера с id=1
+--удалить тренера, потом обновить таблицу и добавить нового тренера
 delete from rental_service.coach where coach_id = 1; --уволили тренера 1
 delete from rental_service.address_x_coach where coach_id = 1; --удалили его с адреса
 insert into rental_service.coach(coach_id, coach_name, experience, phone) --приняли нового тренера по той же услуге, что и уволенный
