@@ -290,7 +290,9 @@ values (7, 4);
 insert into rental_service.occasion(occasion_id, service_id, client_id, datetime)
 values (15, 1, 10, '19-01-2023 19:14:50');
 
-delete from rental_service.occasion where occasion_id = 15;
+delete
+from rental_service.occasion
+where occasion_id = 15;
 
 insert into rental_service.occasion(occasion_id, service_id, client_id, promotion_id, datetime)
 values (15, 7, 10, 4, '19-01-2023 19:20:03');
@@ -301,18 +303,32 @@ insert into rental_service.promotion (promotion_id, promotion_type_id, address_i
                                       promotion_type_name)
 values (7, 1, 3, '01.01.2023', '01.02.2023', 'Не плати за третий сноуборд', '3 по цене 2');
 
---добавить нового клиента в табличку
+--добавить нового клиента в табличку и вывести всех клиентов
 insert into rental_service.client(client_id, address_id, name, surname, birthday, phone)
-values (11, 2, 'Вася', 'Пупкин', '11.11.1991', '89555559022');
+values (11, 2, 'Эндрю', 'Тейт', '11.11.1991', '89555559022');
+
+select client_id, name, surname
+from rental_service.client;
 
 --удалить тренера, потом обновить таблицу и добавить нового тренера
-delete from rental_service.coach where coach_id = 1; --уволили тренера 1
-delete from rental_service.address_x_coach where coach_id = 1; --удалили его с адреса
+delete
+from rental_service.coach
+where coach_id = 1; --уволили тренера 1
+
+delete
+from rental_service.address_x_coach
+where coach_id = 1; --удалили его с адреса
+
 insert into rental_service.coach(coach_id, coach_name, experience, phone) --приняли нового тренера по той же услуге, что и уволенный
 values (1, 'Остап Подковыров', 23, '+79998887766');
+
 insert into rental_service.address_x_coach(coach_id, address_id)
 values (1, 4); --поставили его на адрес 4
-update rental_service.address_x_coach set address_id = 2 where coach_id = 1; --передумали и поставили на адрес 2
+
+update rental_service.address_x_coach
+set address_id = 2
+where coach_id = 1;
+--передумали и поставили на адрес 2
 
 --изменили цену на пару услуг и обновили таблицу
 update rental_service.service
@@ -328,3 +344,39 @@ update rental_service.promotion
 set end_t = '25.02.2023'
 where promotion_id = 2;
 
+
+--task 6
+--task 6
+--вывести общую стоимость трат по каждому клиенту, отсортировав по убыванию суммы (оконные, order by, group by)
+select
+    coalesce(sum(s.price), 0) as total_sum,
+    cl.client_id,
+    cl.name,
+    cl.surname
+from
+    client cl
+left join
+    occasion o on cl.client_id = o.client_id
+left join
+    service s on o.service_id = s.service_id
+left join
+    promotion p on o.promotion_id = p.promotion_id
+group by
+    cl.client_id, cl.name, cl.surname
+order by
+    total_sum desc;
+
+--вывести адреса, на которых работают более 1 тренера (оконные, group by + having)
+select
+    ac.address_id,
+    a.street,
+    a.house,
+    count(ac.coach_id) as coach_count
+from
+    address_x_coach ac
+join
+    address a on ac.address_id = a.address_id
+group by
+    ac.address_id, a.street, a.house
+having
+    count(ac.coach_id) > 1;
