@@ -301,11 +301,11 @@ insert into rental_service.promotion (promotion_id, promotion_type_id, address_i
                                       promotion_type_name)
 values (7, 1, 3, '01.01.2023', '01.02.2023', 'Не плати за третий сноуборд', '3 по цене 2');
 
---добавить нового клиента в табличку (insert)
+--добавить нового клиента в табличку
 insert into rental_service.client(client_id, address_id, name, surname, birthday, phone)
 values (11, 2, 'Вася', 'Пупкин', '11.11.1991', '89555559022');
 
---удалить тренера 1, потом обновить таблицу и добавить нового тренера с id=1 (delete, update, insert)
+--удалить тренера 1, потом обновить таблицу и добавить нового тренера с id=1
 delete from rental_service.coach where coach_id = 1; --уволили тренера 1
 delete from rental_service.address_x_coach where coach_id = 1; --удалили его с адреса
 insert into rental_service.coach(coach_id, coach_name, experience, phone) --приняли нового тренера по той же услуге, что и уволенный
@@ -313,6 +313,7 @@ values (1, 'Остап Подковыров', 23, '+79998887766');
 insert into rental_service.address_x_coach(coach_id, address_id)
 values (1, 4); --поставили его на адрес 4
 update rental_service.address_x_coach set address_id = 2 where coach_id = 1; --передумали и поставили на адрес 2
+
 --изменили цену на пару услуг и обновили таблицу
 update rental_service.service
 set price = 1200
