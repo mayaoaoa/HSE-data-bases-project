@@ -301,3 +301,17 @@ insert into rental_service.promotion (promotion_id, promotion_type_id, address_i
                                       promotion_type_name)
 values (7, 1, 3, '01.01.2023', '01.02.2023', 'Не плати за третий сноуборд', '3 по цене 2');
 
+--изменили цену на пару услуг и обновили таблицу
+update rental_service.service
+set price = 1200
+where service_id = 12;
+
+update rental_service.service
+set price = 800
+where service_id = 10;
+
+--продлили акцию
+update rental_service.promotion
+set end_t = '25.02.2023'
+where promotion_id = 2;
+
