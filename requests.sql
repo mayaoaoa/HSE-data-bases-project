@@ -45,16 +45,6 @@ create table coach
     phone      varchar(20) unique
 );
 
-drop table if exists occasion cascade;
-create table occasion
-(
-    occasion_id integer primary key,
-    client_id   integer   not null,
-    datetime    timestamp not null,
-
-    foreign key (client_id) references client (client_id) on delete cascade
-);
-
 drop table if exists promotion cascade;
 create table promotion
 (
@@ -69,15 +59,19 @@ create table promotion
     foreign key (address_id) references address (address_id) on delete cascade
 );
 
-drop table if exists occasion_x_service cascade;
-create table occasion_x_service
-(
-    occasion_id integer not null,
-    service_id  integer not null,
 
-    CONSTRAINT oc_X_serv_id PRIMARY KEY (occasion_id, service_id),
-    FOREIGN KEY (occasion_id) REFERENCES occasion (occasion_id) ON DELETE CASCADE,
-    FOREIGN KEY (service_id) REFERENCES service (service_id) ON DELETE CASCADE
+drop table if exists occasion cascade;
+create table occasion
+(
+    occasion_id integer primary key,
+    service_id integer not null,
+    client_id   integer   not null,
+    promotion_id integer,
+    datetime    timestamp not null,
+
+    foreign key (client_id) references client (client_id) on delete cascade,
+    foreign key (service_id) references service (service_id) on delete cascade,
+    foreign key (promotion_id) references promotion (promotion_id) on delete cascade
 );
 
 drop table if exists service_x_promotion cascade;
@@ -143,8 +137,15 @@ VALUES (1, 'Коньки "Жизнь на острие"', 500),
        (3, 'Беговые лыжи "Лыжню, товарищ!"', 500),
        (4, 'Горные лыжи "С горки с ветерком"', 1000),
        (5, 'Сноуборд "Полет нормальный"', 1000),
-       (6, 'Скандинавские палочки для ходьби "Попу не отбей!"', 200),
+       (6, 'Скандинавские палочки для ходьбы "Попу не отбей!"', 200),
        (7, 'Санки и финские сани "Люби и саночки возить!"', 400);
+
+insert into rental_service.service(service_id, naming, price)
+VALUES (8, 'Учимся быть лучшими фигуристами с Геннадием', 1200), --коньки
+       (9, 'Будь на высоте выше дивана с Дивановой', 1100), --сноуборд
+       (10, 'Научись правильно ходить, даже не за грибами!', 500), --ходьба с палками
+       (11, 'Уроки лыж', 800), --беговые лыжи
+       (12, 'Научись летать', 1450); --горные лыжи
 
 
 insert into rental_service.client (client_id, address_id, name, surname, birthday, phone)
@@ -185,6 +186,22 @@ insert into rental_service.coach(coach_id, coach_name, experience, phone)
 values ('7', 'Прасковья Шоколадкина', '3', '+7925617891');
 
 
+insert into rental_service.service_x_coach(coach_id, service_id)
+values ('1', '12');
+insert into rental_service.service_x_coach(coach_id, service_id)
+values ('2', '12');
+insert into rental_service.service_x_coach(coach_id, service_id)
+values ('3', '8');
+insert into rental_service.service_x_coach(coach_id, service_id)
+values ('4', '10');
+insert into rental_service.service_x_coach(coach_id, service_id)
+values ('5', '11');
+insert into rental_service.service_x_coach(coach_id, service_id)
+values ('6', '9');
+insert into rental_service.service_x_coach(coach_id, service_id)
+values ('7', '11');
+
+
 insert into rental_service.promotion (promotion_id, promotion_type_id, address_id, begin_t, end_t, promotion_name, promotion_type_name)
 values (1, 1, 3,'10.12.2022', '01.01.2023', 'Не плати за третьи коньки', '3 по цене 2');
 insert into rental_service.promotion (promotion_id, promotion_type_id, address_id, begin_t, end_t, promotion_name, promotion_type_name)
@@ -199,4 +216,23 @@ insert into rental_service.promotion (promotion_id, promotion_type_id, address_i
 values (6, 3, 4, '01.02.2023', '27.02.2023', 'Кто рано встает, тому сноуборд со скидкой 10% - успей оформить аренду до 10:00 и будет тебе счастье', 'Скидка по времени');
 
 
-
+insert into rental_service.occasion(occasion_id, client_id, service_id, promotion_id, datetime)
+values ('1', '4', '', '', '');
+insert into rental_service.occasion(occasion_id, client_id, service_id, promotion_id, datetime)
+values ('2', '', '', '', '');
+insert into rental_service.occasion(occasion_id, client_id, service_id, promotion_id, datetime)
+values ('3', '', '', '', '');
+insert into rental_service.occasion(occasion_id, client_id, service_id, promotion_id, datetime)
+values ('4', '', '', '', '');
+insert into rental_service.occasion(occasion_id, client_id, service_id, promotion_id, datetime)
+values ('5', '', '', '', '');
+insert into rental_service.occasion(occasion_id, client_id, service_id, promotion_id, datetime)
+values ('6', '', '', '', '');
+insert into rental_service.occasion(occasion_id, client_id, service_id, promotion_id, datetime)
+values ('7', '', '', '', '');
+insert into rental_service.occasion(occasion_id, client_id, service_id, promotion_id, datetime)
+values ('8', '', '', '', '');
+insert into rental_service.occasion(occasion_id, client_id, service_id, promotion_id, datetime)
+values ('9', '', '', '', '');
+insert into rental_service.occasion(occasion_id, client_id, service_id, promotion_id, datetime)
+values ('10', '', '', '', '');
