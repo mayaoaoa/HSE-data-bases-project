@@ -346,9 +346,9 @@ where promotion_id = 2;
 
 
 --task 6
--- Вывести общую сумму трат каждого клиента, отсортировав по убыванию суммы (оконные, order by, group by)
+-- Вывести общую сумму трат каждого клиента, отсортировав по убыванию суммы
 -- Если клиент не совершал покупок, то вывести 0
--- Формат вывода: total_sum (общая сумма трат клиента), client_id, client (name + surname)
+-- Формат: total_sum (общая сумма трат клиента), client_id, client (name + surname)
 select coalesce(sum(s.price), 0)    as total_sum,
        cl.client_id,
        cl.name || ' ' || cl.surname as client
@@ -359,19 +359,28 @@ from client cl
 group by cl.client_id, cl.name, cl.surname
 order by total_sum desc;
 
--- Вывести адреса, на которых работают более 1 тренера (оконные, group by + having)
--- Формат вывода: address_id, address (street + house), coach_count (количество трененов на адресе)
-select ac.address_id,
-       a.street || ', дом ' || a.house as address,
-       count(ac.coach_id)              as coach_count
-from rental_service.address_x_coach ac
-         join rental_service.address a on ac.address_id = a.address_id
-group by ac.address_id, a.street, a.house
-having count(ac.coach_id) > 1;
+-- Вывести средний опыт тренеров на адресах, куда ходят более одного клиента, отсортировав по нему
+-- Формат: address_id, address (street + house), avg_coach_exp (средний опыт тренеров)
+select avg(c.experience)               as avg_coach_exp,
+       ac.address_id,
+       a.street || ', дом ' || a.house as address
+from coach c
+         join
+     address_x_coach ac on c.coach_id = ac.coach_id
+         join
+     client cl on ac.address_id = cl.address_id
+         join
+     address a on ac.address_id = a.address_id
+where ac.address_id in (select address_id
+                        from client
+                        group by address_id
+                        having count(*) > 1)
+group by ac.address_id, address
+order by avg_coach_exp;
+
 
 -- Вывести имена клиентов в алфавитном порядке, которые брали в аренду коньки после 15.12.2022
--- Формат вывода: name, surname, occasion_id, datetime
-
+-- Формат: name, surname, occasion_id, datetime
 select c.name, c.surname, o.occasion_id, o.datetime
 from rental_service.client as c
          join rental_service.occasion as o on c.client_id = o.client_id
@@ -384,7 +393,6 @@ order by c.surname;
 -- когда эта акция была использована
 -- Если таких акций несколько, то вывести все
 -- Формат: promotion_name, count
-
 with promotion_count as (select promotion.promotion_name,
                                 COUNT(occasion.promotion_id) as count
                          from rental_service.occasion
@@ -397,7 +405,7 @@ select promotion_count.promotion_name,
 from promotion_count
          join max_count on promotion_count.count = max_count.max_c;
 
--- выводим адреса от самого популярного к самому непопулярному
+-- Вывести адреса от самого популярного к самому непопулярному
 -- по количеству тренеров, которые работают по адресу
 select street, house, count(axc.coach_id)
 from rental_service.address a
