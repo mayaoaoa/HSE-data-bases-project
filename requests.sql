@@ -396,3 +396,25 @@ select promotion_count.promotion_name,
        promotion_count.count
 from promotion_count
          join max_count on promotion_count.count = max_count.max_c;
+
+-- выводим адреса от самого популярного к самому непопулярному
+-- по количеству тренеров, которые работают по адресу
+select street, house, count(axc.coach_id)
+from rental_service.address a
+         inner join rental_service.address_x_coach axc on a.address_id = axc.address_id
+         inner join rental_service.coach c on axc.coach_id = c.coach_id
+where (a.address_id = 1 or a.address_id = 2 or a.address_id = 3 or a.address_id = 4 or a.address_id = 5)
+group by street, house
+having count(axc.coach_id) > 0
+order by count(axc.coach_id) desc;
+
+
+-- вывеодим имена клиентов, которые всегда пользуются услугами сервиса
+-- во временном промежутке от 9 до 10 утра
+select name, surname
+from rental_service.client c
+         inner join rental_service.occasion o on c.client_id = o.client_id
+where extract(hour from o.datetime) < '10'
+  and extract(hour from o.datetime) >= '9'
+group by name, surname
+order by name;
