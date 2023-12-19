@@ -346,7 +346,6 @@ where promotion_id = 2;
 
 
 --task 6
---task 6
 --вывести общую стоимость трат по каждому клиенту, отсортировав по убыванию суммы (оконные, order by, group by)
 select
     coalesce(sum(s.price), 0) as total_sum,
@@ -380,3 +379,32 @@ group by
     ac.address_id, a.street, a.house
 having
     count(ac.coach_id) > 1;
+
+-- Вывести имена клиентов в алфавитном порядке, которые брали в аренду коньки после 15.12.2022
+-- Формат вывода: name, surname, occasion_id, datetime
+
+select c.name, c.surname, o.occasion_id, o.datetime
+from rental_service.client as c
+         join rental_service.occasion as o on c.client_id = o.client_id
+         join rental_service.service as s on o.service_id = s.service_id
+where (s.naming = 'Коньки "Жизнь на острие"' or s.naming = 'Учимся быть лучшими фигуристами с Геннадием')
+  and o.datetime > '15-12-2022 00:00:00'
+order by c.surname;
+
+-- Вывести название акции, которой пользовались наибольшее количество раз и количество раз,
+-- когда эта акция была использована
+-- Если таких акций несколько, то вывести все
+-- Формат: promotion_name, count
+
+with promotion_count as (select promotion.promotion_name,
+                                COUNT(occasion.promotion_id) as count
+                         from rental_service.occasion
+                                  join rental_service.promotion on occasion.promotion_id = promotion.promotion_id
+                         group by promotion.promotion_name),
+     max_count as (select MAX(count) as max_c
+                  from promotion_count)
+select promotion_count.promotion_name,
+       promotion_count.count
+from promotion_count
+         join max_count on promotion_count.count = max_count.max_c;
+
