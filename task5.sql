@@ -35,7 +35,7 @@ from rental_service.address_x_coach
 where coach_id = 1; --удалили его с адреса
 
 insert into rental_service.coach(coach_id, coach_name, experience, phone) --приняли нового тренера по той же услуге, что и уволенный
-values (1, 'Остап Подковыров', 23, '+79998887766');
+values (1, 'Остап Подковыров', 23, '89998887766');
 
 insert into rental_service.address_x_coach(coach_id, address_id)
 values (1, 4); --поставили его на адрес 4

@@ -158,19 +158,19 @@ values (10, 5, 'Федя', 'Шишкин', '11.11.2011', '89239018821');
 
 
 insert into rental_service.coach (coach_id, coach_name, experience, phone)
-values (1, 'Степанида Васильева', 3, '+79234160751');
+values (1, 'Степанида Васильева', 3, '89234160751');
 insert into rental_service.coach (coach_id, coach_name, experience, phone)
-values (2, 'Агрофена Чебурашкина', 10, '+79213416722');
+values (2, 'Агрофена Чебурашкина', 10, '89213416722');
 insert into rental_service.coach (coach_id, coach_name, experience, phone)
 values (3, 'Геннадий Полотенцев', 6, '82222222222');
 insert into rental_service.coach (coach_id, coach_name, experience, phone)
 values (4, 'Василий Грибников-Белкин', 2, '81923044567');
 insert into rental_service.coach (coach_id, coach_name, experience, phone)
-values (5, 'Корней Копатычев', 14, '+78112460999');
+values (5, 'Корней Копатычев', 14, '88112460999');
 insert into rental_service.coach (coach_id, coach_name, experience, phone)
 values (6, 'Капитолина Диванова', 7, '89009127741');
 insert into rental_service.coach(coach_id, coach_name, experience, phone)
-values (7, 'Прасковья Шоколадкина', 3, '+7925617891');
+values (7, 'Прасковья Шоколадкина', 3, '8925617891');
 
 
 insert into rental_service.service_x_coach(coach_id, service_id)
@@ -320,7 +320,7 @@ from rental_service.address_x_coach
 where coach_id = 1; --удалили его с адреса
 
 insert into rental_service.coach(coach_id, coach_name, experience, phone) --приняли нового тренера по той же услуге, что и уволенный
-values (1, 'Остап Подковыров', 23, '+79998887766');
+values (1, 'Остап Подковыров', 23, '89998887766');
 
 insert into rental_service.address_x_coach(coach_id, address_id)
 values (1, 4); --поставили его на адрес 4
@@ -428,3 +428,28 @@ where extract(hour from o.datetime) < '10'
   and extract(hour from o.datetime) >= '9'
 group by name, surname
 order by name;
+
+
+--task7
+-- create views
+drop schema if exists rental_service_view cascade;
+create schema rental_service_view;
+
+set search_path = rental_service_view;
+
+-- clients
+drop view if exists clients;
+create view clients as
+select cl.name || ' ' || cl.surname                             as client,
+       overlay(cl.phone::text placing '-***-***-' from 2 for 6) as phone,
+       extract(year from age(cl.birthday))                      as age
+from rental_service.client cl;
+
+-- coaches
+drop view if exists coaches;
+create view coaches as
+select c.coach_name                                            as coach,
+       c.experience                                            as XP,
+       overlay(c.phone::text placing '-***-***-' from 2 for 6) as phone
+from rental_service.coach c
+order by XP desc ;

@@ -50,15 +50,15 @@ values (10, 5, 'Федя', 'Шишкин', '11.11.2011', '89239018821');
 
 
 insert into rental_service.coach (coach_id, coach_name, experience, phone)
-values (1, 'Степанида Васильева', 3, '+79234160751');
+values (1, 'Степанида Васильева', 3, '89234160751');
 insert into rental_service.coach (coach_id, coach_name, experience, phone)
-values (2, 'Агрофена Чебурашкина', 10, '+79213416722');
+values (2, 'Агрофена Чебурашкина', 10, '89213416722');
 insert into rental_service.coach (coach_id, coach_name, experience, phone)
 values (3, 'Геннадий Полотенцев', 6, '82222222222');
 insert into rental_service.coach (coach_id, coach_name, experience, phone)
 values (4, 'Василий Грибников-Белкин', 2, '81923044567');
 insert into rental_service.coach (coach_id, coach_name, experience, phone)
-values (5, 'Корней Копатычев', 14, '+78112460999');
+values (5, 'Корней Копатычев', 14, '88112460999');
 insert into rental_service.coach (coach_id, coach_name, experience, phone)
 values (6, 'Капитолина Диванова', 7, '89009127741');
 insert into rental_service.coach(coach_id, coach_name, experience, phone)
