@@ -62,7 +62,7 @@ values (5, 'Корней Копатычев', 14, '88112460999');
 insert into rental_service.coach (coach_id, coach_name, experience, phone)
 values (6, 'Капитолина Диванова', 7, '89009127741');
 insert into rental_service.coach(coach_id, coach_name, experience, phone)
-values (7, 'Прасковья Шоколадкина', 3, '+7925617891');
+values (7, 'Прасковья Шоколадкина', 3, '89256178911');
 
 
 insert into rental_service.service_x_coach(coach_id, service_id)

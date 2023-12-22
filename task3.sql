@@ -11,7 +11,7 @@ create table service
 (
     service_id integer primary key,
     naming     varchar(50) not null,
-    price      integer     not null
+    price      integer     not null default 500
 );
 
 drop table if exists address cascade;
@@ -31,7 +31,7 @@ create table client
     name       varchar(50) not null,
     surname    varchar(50),
     birthday   date,
-    phone      varchar(20) unique,
+    phone      varchar(20) unique check ( phone ~ '^8[0-9]{10}$' ),
 
     foreign key (address_id) references address (address_id) on delete cascade
 );
@@ -41,8 +41,8 @@ create table coach
 (
     coach_id   integer primary key,
     coach_name text not null,
-    experience integer,
-    phone      varchar(20) unique
+    experience integer check (coach.experience > 0 ),
+    phone      varchar(20) unique check ( phone ~ '^8[0-9]{10}$' )
 );
 
 drop table if exists promotion cascade;
@@ -54,7 +54,7 @@ create table promotion
     promotion_type_id   integer not null,
     promotion_type_name text    not null,
     begin_t             date,
-    end_t               date,
+    end_t               date check ( promotion.end_t > promotion.begin_t ),
 
     foreign key (address_id) references address (address_id) on delete cascade
 );
@@ -79,9 +79,9 @@ create table service_x_promotion
     service_id   integer not null,
     promotion_id integer not null,
 
-    CONSTRAINT serv_X_prom_id PRIMARY KEY (service_id, promotion_id),
-    FOREIGN KEY (service_id) REFERENCES service (service_id) ON DELETE CASCADE,
-    FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id) ON DELETE CASCADE
+    constraint serv_X_prom_id primary key (service_id, promotion_id),
+    foreign key (service_id) references service (service_id) on delete cascade,
+    foreign key (promotion_id) references promotion (promotion_id) on delete cascade
 );
 
 drop table if exists service_x_coach cascade;
@@ -90,9 +90,9 @@ create table service_x_coach
     coach_id   integer not null,
     service_id integer not null,
 
-    CONSTRAINT serv_X_coach_id PRIMARY KEY (coach_id, service_id),
-    FOREIGN KEY (coach_id) REFERENCES coach (coach_id) ON DELETE CASCADE,
-    FOREIGN KEY (service_id) REFERENCES service (service_id) ON DELETE CASCADE
+    constraint serv_X_coach_id primary key (coach_id, service_id),
+    foreign key (coach_id) references coach (coach_id) on delete cascade,
+    foreign key (service_id) references service (service_id) on delete cascade
 );
 
 drop table if exists address_x_coach cascade;
@@ -101,7 +101,7 @@ create table address_x_coach
     coach_id   integer not null,
     address_id integer not null,
 
-    CONSTRAINT ad_X_coach_id PRIMARY KEY (coach_id, address_id),
-    FOREIGN KEY (coach_id) REFERENCES coach (coach_id) ON DELETE CASCADE,
-    FOREIGN KEY (address_id) REFERENCES address (address_id) ON DELETE CASCADE
+    constraint ad_X_coach_id primary key (coach_id, address_id),
+    foreign key (coach_id) references coach (coach_id) on delete cascade,
+    foreign key (address_id) references address (address_id) on delete cascade
 );
