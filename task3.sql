@@ -11,7 +11,7 @@ create table service
 (
     service_id integer primary key,
     naming     varchar(50) not null,
-    price      integer     not null default 500
+    price      integer     not null default 500 check ( service.price > 0 )
 );
 
 drop table if exists address cascade;
@@ -20,7 +20,7 @@ create table address
     address_id integer primary key,
     street     varchar(50),
     house      varchar(10),
-    phone      varchar(20) not null
+    phone      varchar(20) not null check ( phone ~ '^8[0-9]{10}$' )
 );
 
 drop table if exists client cascade;
@@ -30,7 +30,7 @@ create table client
     address_id integer     not null,
     name       varchar(50) not null,
     surname    varchar(50),
-    birthday   date,
+    birthday   date check ( extract(year from age(client.birthday)) > 4), --можно с 4х лет
     phone      varchar(20) unique check ( phone ~ '^8[0-9]{10}$' ),
 
     foreign key (address_id) references address (address_id) on delete cascade
