@@ -535,3 +535,4 @@ from rental_service.service s
 group by service_name
 order by total_service_profit desc;
 
+
