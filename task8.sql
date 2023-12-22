@@ -1,4 +1,5 @@
 --task 8
+set search_path = rental_service_view;
 
 -- вывести прибыль по каждому адресу,
 -- отсортировав от самого прибыльного адреса, к самому неприбыльному
@@ -15,7 +16,7 @@ select (street || ', дом ' || house) as full_address,
                when o.promotion_id = 4
                    then s.price * 0.8
                when o.promotion_id = 5
-                   then s.price * 0.75
+                   then s.price * 0.65
                when o.promotion_id is null
                    then s.price
            end)                      as total_address_profit
@@ -42,7 +43,7 @@ select naming as service_name,
                when o.promotion_id = 4
                    then s.price * 0.8
                when o.promotion_id = 5
-                   then s.price * 0.75
+                   then s.price * 0.65
                when o.promotion_id is null
                    then s.price
            end)                      as total_service_profit
