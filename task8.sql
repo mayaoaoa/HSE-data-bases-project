@@ -1,6 +1,6 @@
 --task 8
-set
-search_path = rental_service_view;
+set search_path = rental_service_view;
+
 -- вывести общее число денег, сэкономленных каждым клиентом при использовании акций
 -- отсортировать от клиента с самым большим накоплением до самого маленького
 drop view if exists client_saving;

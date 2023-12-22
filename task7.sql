@@ -38,7 +38,6 @@ select a.street || ', дом ' || a.house                         as address,
 from rental_service.address a
 order by address desc;
 
-
 -- promotions
 drop view if exists promotions;
 create view promotions as

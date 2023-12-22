@@ -297,7 +297,6 @@ where occasion_id = 15;
 insert into rental_service.occasion(occasion_id, service_id, client_id, promotion_id, datetime)
 values (15, 7, 10, 4, '19-01-2023 19:20:03');
 
-
 --добавить новую акцию
 insert into rental_service.promotion (promotion_id, promotion_type_id, address_id, begin_t, end_t, promotion_name,
                                       promotion_type_name)
@@ -359,7 +358,6 @@ from client cl
 group by cl.client_id, cl.name, cl.surname
 order by total_sum desc;
 
-
 -- Вывести средний опыт тренеров на адресах, куда ходят более одного клиента, отсортировав по нему
 -- Формат: address_id, address (street + house), avg_coach_exp (средний опыт тренеров)
 select avg(c.experience)               as avg_coach_exp,
@@ -376,7 +374,6 @@ where ac.address_id in (select address_id
 group by ac.address_id, address
 order by avg_coach_exp;
 
-
 -- Вывести имена клиентов в алфавитном порядке, которые брали в аренду коньки после 15.12.2022
 -- Формат: name, surname, occasion_id, datetime
 select c.name, c.surname, o.occasion_id, o.datetime
@@ -386,7 +383,6 @@ from rental_service.client as c
 where (s.naming = 'Коньки "Жизнь на острие"' or s.naming = 'Учимся быть лучшими фигуристами с Геннадием')
   and o.datetime > '15-12-2022 00:00:00'
 order by c.surname;
-
 
 -- Вывести название акции, которой пользовались наибольшее количество раз и количество раз,
 -- когда эта акция была использована
@@ -404,7 +400,6 @@ select promotion_count.promotion_name,
 from promotion_count
          join max_count on promotion_count.count = max_count.max_c;
 
-
 -- Вывести адреса от самого популярного к самому непопулярному
 -- по количеству тренеров, которые работают по адресу
 -- Формат: street, house, count
@@ -416,7 +411,6 @@ where (a.address_id = 1 or a.address_id = 2 or a.address_id = 3 or a.address_id 
 group by street, house
 having count(axc.coach_id) > 0
 order by count(axc.coach_id) desc;
-
 
 -- Вывести имена клиентов, которые всегда пользуются услугами сервиса
 -- во временном промежутке от 9 до 10 утра
@@ -470,7 +464,6 @@ select a.street || ', дом ' || a.house                         as address,
 from rental_service.address a
 order by address desc;
 
-
 -- promotions
 drop view if exists promotions;
 create view promotions as
@@ -481,6 +474,7 @@ select p.promotion_name    as naming,
        p.end_t - p.begin_t as duration
 from rental_service.promotion p
 order by p.begin_t;
+
 
 --task 8
 -- вывести общее число денег, сэкономленных каждым клиентом при использовании акций
@@ -580,6 +574,3 @@ from rental_service.service s
          left join rental_service.promotion p on o.promotion_id = p.promotion_id
 group by service_name
 order by total_service_profit desc;
-
-
-

@@ -12,7 +12,6 @@ where occasion_id = 15;
 insert into rental_service.occasion(occasion_id, service_id, client_id, promotion_id, datetime)
 values (15, 7, 10, 4, '19-01-2023 19:20:03');
 
-
 --добавить новую акцию
 insert into rental_service.promotion (promotion_id, promotion_type_id, address_id, begin_t, end_t, promotion_name,
                                       promotion_type_name)
