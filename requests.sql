@@ -500,7 +500,7 @@ select cl.name || ' ' || cl.surname as client,
 from rental_service.client cl
          inner join rental_service.occasion o on cl.client_id = o.client_id
          inner join rental_service.service s on o.service_id = s.service_id
-         inner join rental_service.promotion p on p.promotion_id = o.promotion_id
+         left join rental_service.promotion p on p.promotion_id = o.promotion_id
 group by cl.name || ' ' || cl.surname
 order by total_saving desc;
 
